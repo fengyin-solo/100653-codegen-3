@@ -63,6 +63,36 @@
       </tbody>
     </table>
 
+    <section class="ledger-block">
+      <h3>供水隐患台账（稽查处置结论落点）</h3>
+      <p class="page-desc">由「供水稽查与违规处理」在出具限期整改 / 移交执法文书时同步，调度侧只跟踪销号，结论以稽查文书为准。</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>隐患号</th><th>稽查编号</th><th>片区</th><th>用户</th><th>违规情形</th>
+            <th>处置结论</th><th>整改天数</th><th>文书号</th><th>同步时间</th><th>台账状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="h in ledgerRows" :key="h.hazardNo">
+            <td>{{ h.hazardNo }}</td>
+            <td>{{ h.caseNo }}</td>
+            <td>{{ h.zone }}</td>
+            <td>{{ h.user }}</td>
+            <td>{{ h.violationType }}</td>
+            <td>{{ h.conclusion }}</td>
+            <td>{{ h.conclusion === '限期整改' ? h.rectifyDays + ' 天' : '—' }}</td>
+            <td>{{ h.documentNo }}</td>
+            <td>{{ h.syncedAt }}</td>
+            <td>{{ h.status }}</td>
+          </tr>
+          <tr v-if="!ledgerRows.length">
+            <td colspan="10" class="empty-state">暂无稽查移送的隐患台账记录</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <footer class="page-foot">
       <span>共 {{ total }} 条供水调度指令记录</span>
       <span v-if="errorMessage" class="error-text">{{ errorMessage }}</span>
@@ -79,6 +109,8 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { inspectionBundle } from '@/data/inspection-store'
+import type { HazardLedgerItem } from '@/data/inspection-types'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('dispatch')
@@ -90,6 +122,7 @@ const stats = [{"label": "待下达指令", "value": 0}, {"label": "执行中指
 const rows = ref<EntryRow[]>([])
 const total = ref(0)
 const errorMessage = ref('')
+const ledgerRows = ref<HazardLedgerItem[]>([])
 const filters = ref<Record<string, string>>({})
 const filterFields = columns.slice(0, 3)
 const statusSummary = computed(() =>
@@ -128,6 +161,7 @@ function reload() {
     const payload = listEntries(meta.key, filters.value)
     rows.value = payload.items
     total.value = payload.total
+    ledgerRows.value = inspectionBundle().ledger
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : '供水调度指令列表读取失败'
   }

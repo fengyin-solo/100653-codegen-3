@@ -1,4 +1,5 @@
 import { MODULE_BY_KEY } from '@/data/modules'
+import { inspectionBundle } from '@/data/inspection-store'
 import { allRows, listRows, resetRows, saveRows } from '@/data/local-store'
 import type { ActionResult, EntryRow, ModuleMeta, OverviewResult, PageResult } from '@/data/types'
 
@@ -87,6 +88,17 @@ export function downloadEntries(key: string): void {
 export function loadOverview(): OverviewResult {
   const rows = allRows()
   const modules = [...MODULE_BY_KEY.values()].map((meta) => {
+    if (meta.key === 'inspection') {
+      // 稽查模块独立持久化，统计口径与通用台账分开取。
+      const bundle = inspectionBundle()
+      const pending = bundle.cases.filter(
+        (row) => row.status === '待现场判定' || row.status === '待处置',
+      ).length
+      const abnormal = bundle.cases.filter(
+        (row) => (row.ruling?.isViolation ?? false) && row.status !== '已处置',
+      ).length
+      return { name: meta.name, created: bundle.cases.length, pending, abnormal }
+    }
     const entries = rows[meta.key] ?? []
     return {
       name: meta.name,
