@@ -35,3 +35,29 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+
+/* 供水稽查与违规用水处理 */
+.tag { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px; background: #eef2f7; }
+.tag-danger { background: #fef3f2; color: #b42318; border: 1px solid #fecdca; font-weight: 600; }
+.tag-warn { background: #fffaeb; color: #b54708; border: 1px solid #fedf89; }
+.tag-ok { background: #ecfdf3; color: #067647; border: 1px solid #a6f4c5; }
+.tag-info { background: #eff4ff; color: #3538cd; border: 1px solid #c7d7fe; }
+.row-illegal td { background: #fff5f4; }
+.ok-text { color: #067647; }
+.error-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #fef3f2; border: 1px solid #fecdca; color: #b42318; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-size: 13px; }
+.session-bar { display: flex; gap: 16px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-size: 13px; }
+.session-item { display: inline-flex; gap: 8px; align-items: center; }
+.session-item select, .session-item input { padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+.detail-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-top: 12px; }
+.detail-panel h3 { margin: 0 0 8px; font-size: 15px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; }
+.detail-note { color: var(--muted); font-size: 12px; margin: 4px 0 10px; }
+.dispose-bar { display: flex; gap: 16px; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
+.modal-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, .45); display: flex; align-items: center; justify-content: center; z-index: 20; }
+.modal-card { background: #fff; border-radius: 10px; padding: 16px 20px; width: 560px; max-width: 92vw; max-height: 86vh; overflow: auto; }
+.modal-card h3 { margin: 0 0 12px; font-size: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.form-item span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.form-item input, .form-item select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.permit-form { margin-top: 12px; }

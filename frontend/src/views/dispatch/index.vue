@@ -63,6 +63,31 @@
       </tbody>
     </table>
 
+    <section class="detail-panel">
+      <div class="panel-head">
+        <h3>供水调度隐患台账</h3>
+        <button class="btn ghost" type="button" @click="reloadHazards">刷新台账</button>
+      </div>
+      <p class="detail-note">供水稽查的处置结论会落到这份台账，调度侧按台账跟进隐患。</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th v-for="column in hazardColumns" :key="column">{{ column }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in hazards" :key="String(row.id)">
+            <td v-for="column in hazardColumns" :key="column">
+              {{ row[column] === '' || row[column] === undefined ? '—' : row[column] }}
+            </td>
+          </tr>
+          <tr v-if="!hazards.length">
+            <td :colspan="hazardColumns.length" class="empty-state">隐患台账暂无记录</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <footer class="page-foot">
       <span>共 {{ total }} 条供水调度指令记录</span>
       <span v-if="errorMessage" class="error-text">{{ errorMessage }}</span>
@@ -79,6 +104,7 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { listHazards } from '@/api/inspection-service'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('dispatch')
@@ -92,6 +118,9 @@ const total = ref(0)
 const errorMessage = ref('')
 const filters = ref<Record<string, string>>({})
 const filterFields = columns.slice(0, 3)
+// 供水稽查的处置结论落在这份隐患台账里。
+const hazardColumns = ["隐患编号", "来源稽查编号", "所属片区", "用水户", "隐患内容", "处置方式", "整改天数", "登记时间", "台账状态"]
+const hazards = ref<EntryRow[]>([])
 const statusSummary = computed(() =>
   statuses.map((status: string) => ({
     status,
@@ -133,5 +162,12 @@ function reload() {
   }
 }
 
-onMounted(reload)
+function reloadHazards() {
+  hazards.value = listHazards()
+}
+
+onMounted(() => {
+  reload()
+  reloadHazards()
+})
 </script>

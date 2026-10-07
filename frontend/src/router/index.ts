@@ -18,6 +18,7 @@ const Sourcewater = () => import('@/views/sourcewater/index.vue')
 const Valve = () => import('@/views/valve/index.vue')
 const Chem = () => import('@/views/chem/index.vue')
 const Equipmaint = () => import('@/views/equipmaint/index.vue')
+const Inspection = () => import('@/views/inspection/index.vue')
 const Shift = () => import('@/views/shift/index.vue')
 
 const router = createRouter({
@@ -41,6 +42,7 @@ const router = createRouter({
     { path: '/valve', name: 'valve', component: Valve },
     { path: '/chem', name: 'chem', component: Chem },
     { path: '/equipmaint', name: 'equipmaint', component: Equipmaint },
+    { path: '/inspection', name: 'inspection', component: Inspection },
     { path: '/shift', name: 'shift', component: Shift },
   ],
 })
